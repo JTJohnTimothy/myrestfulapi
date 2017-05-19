@@ -1,7 +1,9 @@
 Phase 1
 > setup node for package.json
-> enable es6
+> allow for es6 (babel presets)
 > create server.js with express
 > run and test on browser
+> install nodemon globally
 Phase 2 
-> allow for es6 (babel presets)
+> setup bookrouter in new folder
+> install mongodb
