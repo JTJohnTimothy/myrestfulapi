@@ -1,0 +1,7 @@
+Phase 1
+> setup node for package.json
+> enable es6
+> create server.js with express
+> run and test on browser
+Phase 2 
+> allow for es6 (babel presets)
