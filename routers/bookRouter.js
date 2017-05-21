@@ -1,28 +1,49 @@
 import express from 'express';
+import bookModel from '../models/bookModel';
 
-export default function() {
+export default function(db) {
     let bookRouter = express.Router();
-    
-    //call controller per route
+    let bookTable =  db.collection('books');   
 
     bookRouter.route('/books')
         .get((req,res) => {
-            res.json({msg: "this is a collection of books"})
+            bookModel.find((err, results) => {
+                if (err) res.status(500).send("bookRouter err getallbooks", err)
+                res.json(results);
+            });
         })
 
-    bookRouter.route('/book/bookId')
+    bookRouter.route('/book/:bookId')
         .get((req,res) => {
-            res.json({msg: "this is just 1 book"})
+            bookModel.findById(req.params.bookId,(err, results) => {
+                res.json(results);
+            })
         })
 
-    bookRouter.route('/book/update')
-        .get((req,res) => {
-            res.json({msg: "this is update book"})
+    bookRouter.route('/book')
+        .post((req,res) => {
+            const book = {name: "ScienceBook", author: "John Doe", isbn: "1234567"}
+            bookTable.insert(book, (err, results) => {
+                if (err) res.status(500).send("bookRouter err insert books", err)
+                res.json(results);
+            });
         })
 
-    bookRouter.route('/book/delete')
-        .get((req,res) => {
-            res.json({msg: "this is delete book"})
+    bookRouter.route('/book/:bookId')
+        .put((req,res) => {
+            const book = {name: "MathBook", author: "Jane Doe", isbn: "1234567"}
+            bookModel.findByIdAndUpdate(req.params.bookId, book, (err, results) => {
+                if (err) res.status(500).send("bookRouter err update book", err)
+                res.json(results);
+            })
+        })
+
+    bookRouter.route('/book/:bookId')
+        .delete((req,res) => {
+            bookModel.findByIdAndRemove(req.params.bookId, (err, results) => {
+                if (err) res.status(500).send("bookRouter err delete book", err)
+                res.json(results);
+            })
         })
 
     return bookRouter;
