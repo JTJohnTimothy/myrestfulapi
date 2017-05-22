@@ -1,2 +1,2 @@
 # myrestfulapi
-books
+study, code, find best practices, repeat

@@ -1,50 +1,20 @@
 import express from 'express';
 import bookModel from '../models/bookModel';
+import bookController from '../controllers/bookController';
 
-export default function(db) {
+export default function() {
     let bookRouter = express.Router();
-    let bookTable =  db.collection('books');   
 
     bookRouter.route('/books')
-        .get((req,res) => {
-            bookModel.find((err, results) => {
-                if (err) res.status(500).send("bookRouter err getallbooks", err)
-                res.json(results);
-            });
-        })
-
+        .get(bookController(bookModel).getBooks)
     bookRouter.route('/book/:bookId')
-        .get((req,res) => {
-            bookModel.findById(req.params.bookId,(err, results) => {
-                res.json(results);
-            })
-        })
-
+        .get(bookController(bookModel).getBook)
     bookRouter.route('/book')
-        .post((req,res) => {
-            const book = {name: "ScienceBook", author: "John Doe", isbn: "1234567"}
-            bookTable.insert(book, (err, results) => {
-                if (err) res.status(500).send("bookRouter err insert books", err)
-                res.json(results);
-            });
-        })
-
+        .post(bookController(bookModel).addBook)
     bookRouter.route('/book/:bookId')
-        .put((req,res) => {
-            const book = {name: "MathBook", author: "Jane Doe", isbn: "1234567"}
-            bookModel.findByIdAndUpdate(req.params.bookId, book, (err, results) => {
-                if (err) res.status(500).send("bookRouter err update book", err)
-                res.json(results);
-            })
-        })
-
+        .put(bookController(bookModel).updBook)
     bookRouter.route('/book/:bookId')
-        .delete((req,res) => {
-            bookModel.findByIdAndRemove(req.params.bookId, (err, results) => {
-                if (err) res.status(500).send("bookRouter err delete book", err)
-                res.json(results);
-            })
-        })
+        .delete(bookController(bookModel).delBook)
 
     return bookRouter;
 }

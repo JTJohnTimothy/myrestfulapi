@@ -6,4 +6,5 @@ Phase 1
 > install nodemon globally
 Phase 2 
 > setup bookrouter in new folder
-> install mongodb
+> install mongodb mongoose body-parser
+> curl
