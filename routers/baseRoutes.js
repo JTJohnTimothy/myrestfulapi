@@ -4,7 +4,7 @@ export default function(app) {
     let root = '/api';
 
     app.get("/", (req,res) => {
-        res.send("welcome to my api")
+        res.send({message:"welcome to my api"})
     })
 
     app.use(root, bookRouter()); 

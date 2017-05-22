@@ -10,18 +10,15 @@ let app = express();
 
 mongoose.connect(db.url);
 
-console.log("mongodb URL: ", db.url)
+//middleware
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json({extended:true}))
 
-MongoClient.connect(db.url, (err, database) => { 
-  if (err) return console.log("server.js err");
-  //middleware
-  app.use(bodyParser.urlencoded({extended:true}))
-  app.use(bodyParser.json({extended:true}))
+//routes
+baseRoutes(app);
 
-  //routes
-  baseRoutes(app);
-  
-  app.listen(port, () => {
-    console.log("listening to http://localhost:" + port)
-  })
+app.listen(port, () => {
+  console.log("listening to http://localhost:" + port)
 })
+
+export default app;
